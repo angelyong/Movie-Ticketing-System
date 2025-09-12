@@ -20,14 +20,14 @@
             // Sign in to Account
             case ('signin'):
                 $userName = htmlspecialchars($_POST["userName"] ?? '');
-                $userPassword = htmlspecialchars($_POST['userPassword'] ?? '');
+                $userPassword = md5(htmlspecialchars($_POST['userPassword'] ?? ''));
                 validateUser($conn, $userName, $userPassword);
                 break;
 
             // Sign up new Account
             case ('signup'):
                 $userName = htmlspecialchars($_POST['userName'] ??'');
-                $userPassword = htmlspecialchars($_POST['userPassword'] ??'');
+                $userPassword = md5(htmlspecialchars($_POST['userPassword'] ??''));
                 $userEmail = htmlspecialchars($_POST['userEmail'] ??'');
                 $userPhoneNo = htmlspecialchars($_POST['userPhoneNo'] ??'');
                 registerUser($conn, $userName, $userPassword, $userEmail, $userPhoneNo);
@@ -45,12 +45,12 @@
         if (mysqli_num_rows($result) > 0) {
             while ($row = mysqli_fetch_assoc($result)) {
                 if ($row['userName'] == $userName && $userPassword == $row['userPassword']) {
-                    echo json_encode($row['userID']);
-                    return;
+                    echo json_encode(['success' => true, 'userID' => $row['userID']]);
+                    exit();
                 }
             }
         } 
-        echo json_encode(null);
+        echo json_encode(['success' => false, 'error' => "INVALID USERNAME/PASSWORD!"]);
     }
 
     // Register New Account : Return new userID, else throw error
@@ -58,11 +58,15 @@
         // Prepare & Execute Query
         $stmt = mysqli_prepare($conn, "INSERT INTO user (userName, userPassword, userEmail, userPhoneNo) VALUES (?, ?, ?, ?)");
         mysqli_stmt_bind_param($stmt, "ssss", $userName, $userPassword, $userEmail, $userPhoneNo);
-        mysqli_stmt_execute($stmt);
         
-        // Retrieve User ID
-        $last_id = mysqli_insert_id($conn);
-        echo json_encode($last_id);
+        if (mysqli_stmt_execute($stmt)) {
+            // Retrieve User ID
+            $last_id = mysqli_insert_id($conn);
+            echo json_encode(['success' => true, 'userID' => $last_id]);
+        }
+        else {
+            echo json_encode(['success' => false, 'error' => "USERNAME ALREADY EXISTS!"]);
+        }
 
         // Close stmt
         mysqli_stmt_close($stmt);

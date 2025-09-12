@@ -14,14 +14,14 @@ async function fetchMovieDetail(imdbId) {
 }
 
 async function displayTransactions() {
-    const tickets = document.getElementById("myTickets");
-    const userID = localStorage.getItem("loggedUserID");
+    const container = document.getElementById("movieContainer");
+    const userID = sessionStorage.getItem("loggedUserID");
 
     const response = await fetch(`getTransactions.php?userID=${userID}`);
     const data = await response.json();
 
     if (data.length === 0) {
-        tickets.innerHTML = "<h3>No tickets found.</h3>";
+        container.innerHTML = "<h3>No Ticket(s) Found.</h3>";
         return;
     }
 
@@ -29,26 +29,45 @@ async function displayTransactions() {
         data.map(ticket => fetchMovieDetail(ticket.movieID))
     );
 
-    tickets.innerHTML = data.map((transaction, i) => {
+    data.map((transaction, i) => {
         const movie = movieDetails[i];
-        return `
-            <div class="foreground" style="margin-bottom:5%; border-radius:20px; border-left-width: 15px; display: flex;">
-                <div>
-                    <img src="${movie.primaryImage.url}" alt="${movie.originalTitle}">
-                </div>
-                <div class="ticketDetail">
-                    <h3>${movie.primaryTitle}</h3>
-                    <h4>Transaction ID: ${transaction.transactionID}</h4>
-                    <h4>Total Price: RM ${Number(transaction.totalPrice).toFixed(2)}</h4>
-                    <a href="ticketInfo?movieID=${transaction.movieID}&transactionID=${transaction.transactionID}"><button class="viewTicket">View Details</button></a>
-                </div>
-            </div>
+
+        const card = document.createElement('div');
+        card.className = "ticket-card";
+
+        const movieDiv = document.createElement("div");
+        movieDiv.className = "movie-card";
+        movieDiv.innerHTML = `<img src="${movie.primaryImage.url}" alt="${movie.originalTitle}">`;
+        
+        const movieOverlay = document.createElement("div");
+        movieOverlay.className = "movie-overlay"
+        movieOverlay.innerHTML = `
+        <div style="height: 365px">
+            <h3>${movie.primaryTitle}</h3>
+            <h5><i class="fa-solid fa-tag" style="color: #A76BCE; padding-right: 1%"></i> ${movie.genres?.slice(0,3).join(', ') || 'N/A'}</h5>
+            <h5><i class="fa-solid fa-clock" style="color: #A76BCE; padding-right: 1%"></i> ${movie.runtimeSeconds ? movie.runtimeSeconds / 60 : 'N/A'} mins</h5>
+            <h5><i class="fa-solid fa-language" style="color: #A76BCE; padding-right: 1%"></i> ${movie.spokenLanguages && movie.spokenLanguages.length > 0 ? movie.spokenLanguages[0].name : 'N/A'}</h5>
+        </div>
+        <div style="display: flex; justify-content: center;">
+            <a href="ticketInfo?movieID=${transaction.movieID}&transactionID=${transaction.transactionID}"><button class="viewTicket">View Details</button></a>
+        </div>
         `;
-    }).join('');
+        movieDiv.appendChild(movieOverlay);
+        card.appendChild(movieDiv);
+
+        const ticketTransaction = document.createElement("div");
+        ticketTransaction.className = "ticketTransaction";
+        ticketTransaction.innerHTML = `
+        <h5 class="ticketH5">Transaction ID : ${transaction.transactionID}</h5>
+        `;
+        ticketTransaction.appendChild(card);
+
+        container.appendChild(ticketTransaction);
+    });
 }
 
 async function displayTickets() {
-    const container = document.getElementById("ticketInfo");
+    const container = document.getElementById("ticketContainer");
     const params = new URLSearchParams(window.location.search);
     const transactionID = params.get("transactionID");
 
@@ -57,17 +76,19 @@ async function displayTickets() {
 
     const movie = await fetchMovieDetail(params.get("movieID"))
 
-    ticketInfo.innerHTML = data.map(ticket => {
-        return `
-            <div class="foreground" style="margin-bottom:5%; border-radius:20px; border-left-width: 15px; display: flex;">
-                <div style="flex: 1">
-                    <img src="qr-code.png" alt="QR code" style="width: 90%; height: auto;">
-                </div>
-                <div style="flex: 4;">
-                    <h3>${movie.primaryTitle}</h3>
-                    <h4>Ticket ID: ${ticket.ticketID}</h4>
-                </div>
+    data.map(ticketData => {
+        const ticket = document.createElement("div");
+        ticket.className = "ticketInfo";
+        ticket.innerHTML = `
+            <div style="flex: 1">
+                <img src="ticketQR.png" alt="QR code" style="width: 90%; height: auto;">
+            </div>
+            <div style="flex: 4;">
+                <h3>${movie.primaryTitle}</h3>
+                <h4>Ticket ID: ${ticketData.ticketID}</h4>
             </div>
         `;
-    }).join('');
+
+        container.appendChild(ticket);
+    });
 }

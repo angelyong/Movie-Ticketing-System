@@ -70,3 +70,14 @@ async function displayInfo(imdbId) {
         </div>
     `;
 }
+
+function validatePaymentOption() {
+    const selected = document.querySelector('input[name="gateway"]:checked');
+    const errorDiv = document.getElementById("optionError");
+    if (!selected) {
+        errorDiv.textContent = "PLEASE SELECT A PAYMENT METHOD!!!";
+        return false;
+    }
+    errorDiv.textContent = "";
+    return true;
+}

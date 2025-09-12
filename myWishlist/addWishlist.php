@@ -12,7 +12,7 @@
         die("Connection failed: " . mysqli_connect_error());
     }
 
-    $sql = "INSERT INTO wishlist (userID, movieID) VALUES (?, ?)";
+    $sql = "INSERT INTO upcomingWishlist (userID, movieID) VALUES (?, ?)";
     $stmt = mysqli_prepare($conn, $sql);
     mysqli_stmt_bind_param($stmt, "is", $userID, $movieID);
 

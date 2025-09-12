@@ -5,12 +5,12 @@
         <link rel="stylesheet" href="../styles.css"/>
     </head>
     <body onload="setPasswordForm()">
-        <div class="headContainer">
-            <?php
-                include("../include/header.php");
-                include("../include/navigation.php");
-            ?>
-        </div>
+        <!--Header-->
+        <?php
+            include("../include/header.php");
+        ?>
+        
+        <!--Body-->
         <main>
             <div class="container">
                 <div class="profileContainer">
@@ -19,12 +19,12 @@
                         <input name="operationType" value="updatePassword" hidden>
                         <input id="userID" name="userID" hidden>
                         <div class="inputField">
+                            <label for="userPassword1">New<br>Password:</label>
                             <input id="userPassword1" name="userPassword1" type="password" placeholder="New Password" maxlength="50" required>
-                            <label for="userPassword1">New<br>Password : </label>
                         </div>
                         <div class="inputField">
+                            <label for="userPassword2">Re-enter<br>Password:</label>
                             <input id="userPassword2" name="userPassword2" type="password" placeholder="Re-enter Password" maxlength="50" required>
-                            <label for="userPassword2">Re-enter<br>Password :</label>
                         </div>
                         <div class="errorField">
                             <errorText id="errorText"></errorText>
@@ -37,6 +37,8 @@
                 </div>
             </div>
         </main>
+
+        <!--Footer-->
         <?php
             include("../include/footer.php");
         ?>

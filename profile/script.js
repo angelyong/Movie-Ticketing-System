@@ -1,6 +1,6 @@
 // Log Out From Current User
 function logout() {
-    localStorage.removeItem("loggedUserID");
+    sessionStorage.removeItem("loggedUserID");
     window.location.href = "../userAuthentication/";
 }
 
@@ -11,7 +11,7 @@ function back() {
 
 // Fetch User
 function fetchUser() {
-    let userID = localStorage.getItem("loggedUserID");
+    let userID = sessionStorage.getItem("loggedUserID");
     fetch('dbFunction.php', {
         method: 'POST',
         headers: {
@@ -24,14 +24,16 @@ function fetchUser() {
     })
     .then(response => response.json())
     .then(data => {
-        if (data !== null) {
+        if (data.success) {
             document.getElementById('userID').value = userID;
-            document.getElementById('userName').value = data.userName ?? "undefined";
-            document.getElementById("userEmail").value = data.userEmail ?? "undefined";
-            document.getElementById("userPhoneNo").value = data.userPhoneNo ?? "undefined";
+            document.getElementById('userName').value = data.userData.userName ?? "undefined";
+            document.getElementById("userEmail").value = data.userData.userEmail ?? "undefined";
+            document.getElementById("userPhoneNo").value = data.userData.userPhoneNo ?? "undefined";
         }
         else {
-            document.getElementById("errorText").innerHTML = "ERROR: NO ACCOUNTS FOUND!";
+            window.alert("Error: " + data.error + "\nLogging Out of System");
+            sessionStorage.removeItem("loggedUserID");
+            window.location.href = "../userAuthentication/";
         }
     })
     .catch(error => {
@@ -54,12 +56,15 @@ function setUpdateForm() {
         })
         .then(response => response.json())
         .then(data => {
-            console.log(data);
-            window.location.href = "../profile/"
-            window.alert("Account Updated Successfully");
+            if (data.success) {
+                window.location.href = "../profile/"
+                window.alert("Account Updated Successfully");
+            }
+            else {
+                document.getElementById("errorText").textContent = data.error;
+            }
         })
         .catch(error => {
-            document.getElementById("errorText").textContent = "ERROR: USER NAME ALREADY EXISTS!";
             console.log(error);
         });
     });
@@ -67,7 +72,7 @@ function setUpdateForm() {
 
 // Update User Password
 function setPasswordForm() {
-    document.getElementById('userID').value = localStorage.getItem("loggedUserID");
+    document.getElementById('userID').value = sessionStorage.getItem("loggedUserID");
     document.getElementById('passwordForm').addEventListener('submit', async function(event) {
         event.preventDefault(); // Prevent default form submission
 
@@ -81,13 +86,12 @@ function setPasswordForm() {
         })
         .then(response => response.json())
         .then(data => {
-            console.log(data);
-            if (data !== null) {
-                document.getElementById("errorText").textContent = 'ERROR: ' + data;
-            }
-            else {
+            if (data.success) {
                 window.location.href = "../profile/"
                 window.alert("Password Updated Successfully");
+            }
+            else {
+                document.getElementById("errorText").textContent = data.error;
             }
         })
         .catch(error => {

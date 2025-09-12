@@ -4,6 +4,7 @@
     $password = "";
     $dbname = "movie_ticketing";
     $userID = $_GET['userID'];
+    $movieID = $_GET['movieID'];
 
     $conn = mysqli_connect($servername, $username, $password, $dbname);
 
@@ -11,14 +12,14 @@
         die("Connection failed: " . mysqli_connect_error());
     }
 
-    $sql = "SELECT * FROM wishlist WHERE userID = $userID";
+    $sql = "SELECT * FROM currentWishlist WHERE userID = $userID AND movieID = '$movieID'";
     $result = mysqli_query($conn, $sql);
 
-    $tickets = [];
+    $wishlist = [];
     while($row = mysqli_fetch_assoc($result)) {
-        $tickets[] = $row;
+        $wishlist[] = $row;
     }
-    echo json_encode($tickets);
+    echo json_encode($wishlist);
 
     mysqli_close($conn);
 ?>

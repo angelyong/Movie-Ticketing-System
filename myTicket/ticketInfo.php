@@ -4,26 +4,26 @@
         <title>Absolute Cinema</title>
         <link rel="stylesheet" href="../styles.css"/>
     </head>
-    <body>
-        <div class="headContainer">
-            <?php
-                include("../include/header.php");
-                include("../include/navigation.php");
-            ?>
-        </div>
+    <body onload="displayTickets()">
+        <!--Header-->
+        <?php
+            include("../include/header.php");
+        ?>
 
+        <!--Body-->
         <main>
-            <h1>Ticket Details</h1>
-            <div id="ticketInfo"></div>
+            <div class="container">
+                <div class="containerHeader">
+                    <h1>Ticket Details</h1>
+                </div>
+                <div id="ticketContainer"></div>
+            </div>
         </main>
-        <script src="script.js"></script>
-          <script>
-            window.onload = () => {
-                displayTickets();
-            }
-        </script>
+
+        <!--Footer-->
         <?php
             include("../include/footer.php");
         ?>
+        <script src="script.js"></script>
     </body>
 </html>

@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Payment Gateway</title>
+        <title>Absolute Cinema</title>
         <link rel="stylesheet" href="../styles.css"/>
     </head>
     <body>
         <main>
-            <div class="container">
-                <div class="purchaseContainer">
+            <div class="gatewayContainer">
+                <div id="gatewayInfo">
                     <h1>Payment</h1>
                     <img src="" id="QR" width="400px" height="500px"><br>
                     <a href="..\myTicket\"><button id="paymentButton">CONFIRM PAYMENT</button></a>

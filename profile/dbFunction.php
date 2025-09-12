@@ -37,8 +37,8 @@
                 // Update Account Password
                 case 'updatePassword':
                     $userID = htmlspecialchars($_POST['userID'] ??'');
-                    $userPassword1 = htmlspecialchars($_POST['userPassword1'] ??'');
-                    $userPassword2 = htmlspecialchars($_POST['userPassword2'] ??'');
+                    $userPassword1 = md5(htmlspecialchars($_POST['userPassword1'] ??''));
+                    $userPassword2 = md5(htmlspecialchars($_POST['userPassword2'] ??''));
                     updatePassword($conn, $userID, $userPassword1, $userPassword2);
                     break;
             }
@@ -53,10 +53,10 @@
         
         // Return Result
         if (mysqli_num_rows($result) > 0) {
-            echo json_encode(mysqli_fetch_assoc($result));
+            echo json_encode(['success' => true, 'userData' => mysqli_fetch_assoc($result)]);
         } 
         else {
-            echo json_encode(null);
+            echo json_encode(['success' => false, 'error' => "USER DOES NOT EXISTS!"]);
         }
     }
 
@@ -67,7 +67,12 @@
         mysqli_stmt_bind_param($stmt, "ssss", $userName, $userEmail, $userPhoneNo, $userID);
         
         // Successfully Updated Account
-        echo json_encode(mysqli_stmt_execute($stmt));
+        if (mysqli_stmt_execute($stmt)) {
+            echo json_encode(['success' => true]);
+        }
+        else {
+            echo json_encode(['success' => false, 'error' => mysqli_stmt_error($stmt)]);
+        }
 
         // Close stmt
         mysqli_stmt_close($stmt);
@@ -78,7 +83,7 @@
 
         // Different Password
         if ($userPassword1 != $userPassword2) {
-            echo json_encode("BOTH PASSWORDS ARE NOT EQUAL!");
+            echo json_encode(['success' => false, 'error' => "BOTH PASSWORDS ARE NOT EQUAL!"]);
         }
         else {
             // Search If Password is Same As Current
@@ -89,14 +94,17 @@
 
                 // Same Password As Current
                 if ($userPassword1 == $data['userPassword']) {
-                    echo json_encode('NEW PASSWORD IS EQUAL TO CURRENT PASSWORD!');
+                    echo json_encode(['success' => false, 'error' => 'NEW PASSWORD IS EQUAL TO CURRENT PASSWORD!']);
                 }
                 else {
                     // Prepare & Execute Querry
                     $stmt = mysqli_prepare($conn, "UPDATE user SET userPassword = ? WHERE userID = ?");
                     mysqli_stmt_bind_param($stmt, "ss", $userPassword1, $userID);
                     if (mysqli_stmt_execute($stmt)) {
-                        echo json_encode(null);
+                        echo json_encode(['success' => true]);
+                    }
+                    else {
+                        echo json_encode(['success' => false, 'error' => mysqli_error_stmt($stmt)]);
                     }
 
                     // Close stmt
@@ -104,7 +112,7 @@
                 }
             }
             else {
-                echo json_encode("NO RESULTS FOUND!");
+                echo json_encode(['success' => false, 'error' => "USER ACCOUNT DOES NOT EXISTS!"]);
             }
         }
     }

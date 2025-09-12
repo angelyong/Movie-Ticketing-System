@@ -24,16 +24,16 @@ document.getElementById('signinForm').addEventListener('submit', async function(
     })
     .then(response => response.json())
     .then(data => {
-        if (data !== null) {
-            localStorage.setItem('loggedUserID', data);
+        if (data.success) {
+            sessionStorage.setItem('loggedUserID', data.userID);
             window.location.href = '../';
         }
         else {
-            document.getElementById("signinErrorText").textContent = "INVALID USERNAME/PASSWORD!";
+            document.getElementById("signinErrorText").textContent = data.error;
         }
     })
     .catch(error => {
-        console.error('Error:', error);
+        console.error(error);
     });
 });
 
@@ -50,11 +50,16 @@ document.getElementById('signupForm').addEventListener('submit', async function(
     })
     .then(response => response.json())
     .then(data => {
-        localStorage.setItem('loggedUserID', data);
-        window.location.href = '../';
-        window.alert("Account Registered Successfully");
+        if (data.success) {
+            sessionStorage.setItem('loggedUserID', data.userID);
+            window.location.href = '../';
+            window.alert("Account Registered Successfully");
+        }
+        else {
+            document.getElementById("signupErrorText").textContent = data.error;
+        }
     })
     .catch(error => {
-        document.getElementById("signupErrorText").textContent = "USERNAME ALREADY EXISTS!";
+        console.log(error);
     });
 });

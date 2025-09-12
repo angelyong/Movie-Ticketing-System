@@ -12,7 +12,7 @@
         die("Connection failed: " . mysqli_connect_error());
     }
 
-    $sql = "DELETE FROM upcomingWishlist WHERE userID=? AND movieID=?";
+    $sql = "INSERT INTO currentWishlist (userID, movieID) VALUES (?, ?)";
     $stmt = mysqli_prepare($conn, $sql);
     mysqli_stmt_bind_param($stmt, "is", $userID, $movieID);
 

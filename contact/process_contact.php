@@ -3,8 +3,9 @@
     $username = "root";
     $password = "";
     $dbname = "movie_ticketing";
-    $userID = $_POST['userID'];
-    $movieID = $_POST['movieID'];
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $message = $_POST['message'];
 
     $conn = mysqli_connect($servername, $username, $password, $dbname);
 
@@ -12,12 +13,13 @@
         die("Connection failed: " . mysqli_connect_error());
     }
 
-    $sql = "DELETE FROM upcomingWishlist WHERE userID=? AND movieID=?";
+    $sql = "INSERT INTO userMessage (name, email, message) VALUES (?, ?, ?)";
     $stmt = mysqli_prepare($conn, $sql);
-    mysqli_stmt_bind_param($stmt, "is", $userID, $movieID);
+    mysqli_stmt_bind_param($stmt, "sss", $name, $email, $message);
 
     if (mysqli_stmt_execute($stmt)) {
-        echo json_encode(['success' => true]);
+        header("Location: index.php?success=1");
+        exit;
     } else {
         echo json_encode(['success' => false, 'error' => mysqli_stmt_error($stmt)]);
     }

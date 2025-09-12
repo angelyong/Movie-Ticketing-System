@@ -6,14 +6,14 @@
     </head>
 
     <body>
-        <div class="headContainer">
-            <?php
-                include("../include/header.php");
-                include("../include/navigation.php");
-            ?>
-        </div>
+        <!--Header-->
+        <?php
+            include("../include/header.php");
+        ?>
+
+        <!--Body-->
         <main>
-            <div class="container">
+            <div class="container" style="align-items: center">
                 <div class="loginContainer" id="loginContainer">
                     <div class="form-loginContainer sign-up">
                         <form id="signupForm">
@@ -57,9 +57,10 @@
             </div>
         </main>
 
-        <script src="script.js"></script>
+        <!--Footer-->
         <?php
             include("../include/footer.php");
         ?>
+        <script src="script.js"></script>
     </body>
 </html>

@@ -1,71 +1,105 @@
 /*Styling for the font of entire document*/
 html {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100%;
+    height: 100%;
 }
 
 .foreground {
-    border-left: #222222;
-    border-left-width: 10px;
-    border-left-style: solid;
-    padding: 1% 1% 1% 2%;
+    display: flex;
+    flex: auto;
+    flex-direction: row;
+    flex-wrap: wrap;
+    border-left: 10px solid #222222;
+    padding: 1% 1% 1% 1.5%;
     border-radius: 10px;
-    background-image: linear-gradient(to bottom right, #A76BCE, #9b53e3);
+    background-color: #9b53e3;
     color: black;
     font-weight: 500;
     box-shadow: 0 0 1em rgb(0, 0, 0, 0.35);
-    min-width: 500px;
 }
 
 /*Styling for document body*/
 body {
     display: flex;
+    flex: auto;
     flex-direction: column;
-    min-height: 100vh;
-    min-width: 100vw;
+    min-height: 100%;
+    height: 100%;
+    padding: 0;
     margin: 0;
+}
+
+/*Styling for page content*/
+main {
+    display: flex;
+    flex: auto;
+    flex-direction: column;
+    color: black;
+    font-size: larger;
+    background-image: linear-gradient(to bottom, #BF94E4, #7F00FF);
+}
+
+.container {
+    display: flex;
+    flex: auto;
+    flex-direction: column;
+    min-width: 100%;
+    box-sizing: border-box;
+    padding: 0 5%;
+    padding-bottom: 5%;
+}
+
+.containerHeader {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    min-width: 100%;
+}
+
+.titleHeder {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    min-width: 100%;
 }
 
 /*Styling for page header*/
 .headContainer {
-    background-color: #222222;
-    padding: 0% 10%;
     display: flex;
+    justify-content: space-between;
+    background-color: #222222;
+    padding: 0 10%;
 }
 
-#pageHeader {
-    flex: 1;
+.pageHeader {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
 }
 
-#pageHeader a {
+.pageHeader a {
     color: #A76BCE;
     text-decoration: none;
 }
 
-#pageHeader h4 {
+.pageHeader h4 {
     color: white;
     font-weight: normal;
 }
 
 /*Styling for page navigation*/
-#topNavigation {
-    align-content: center;
-    flex: 2.5;
-}
-
-#topNavigation ul {
+.topNavigation {
     display: flex;
-    list-style-type: none;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    min-height: 100%;
 }
 
-#topNavigation li {
-    flex: 1;
-}
-
-#topNavigation a {
-    text-decoration: none;
-}
-
-#topNavigation button {
+.topNavigation button {
     border: 0.15em solid white;
     font-size: larger;
     width: 8em;
@@ -74,70 +108,137 @@ body {
     color: white;
     border-radius: 10px;
     transition: box-shadow 0.4s ease;
+    margin: 0.5em 0.5em;
+    cursor: pointer;
 }
 
-#topNavigation button:hover {
+.topNavigation button:hover {
     box-shadow: 1em 0 2em #A76BCE, -1em 0 2em #7F00FF;    color: #A76BCE;
     color: white;
     border-color: #A76BCE;
 }
 
-/*Styling for page content*/
-main {
-    color: black;
-    font-size: larger;
-    background-image: linear-gradient(to bottom, #BF94E4, #7F00FF);
-    padding: 0 15% 4% 15%;
-    flex-grow: 1;
+/*Styling for page footer*/
+.footerContainer {
+    display: flex;
+    flex-direction: column;
+    background-color: #222222;
 }
 
-.container {
+.footerContainer hr {
+    border-bottom: 2px solid #ffffff;
+    width: 99%;
+}
+
+.footerInfoContainer {
+    display: flex;
+    justify-content: space-between;
+    color: #FFFFFF;
+    padding: 0 10%
+}
+
+.footerInfoContainer #footerNavigation {
+    display: flex;
+    flex-direction: column;
+    text-align: start;
+    margin:0;
+}
+
+.footerInfoContainer #footerInfo {
     display: flex;
     flex-direction: row;
-    justify-content: center;
-    align-items: center;
+    white-space: nowrap;
+}
+
+.footerInfoContainer #footerDetail {
+    text-align: end;
+}
+
+.footerInfoContainer a {
+    color: white;
+    text-decoration: none;
+}
+
+.footerInfoContainer a:hover {
+    color: #BF9EDC;
+    text-decoration: underline;
 }
 
 /*Styling for movie page*/
-.movie-row {
-  display: flex;
-  justify-content: center;
-  padding-bottom: 2%;
-  opacity: 1;
-  transform: translateY(0);
-  transition: opacity 0.6s ease-in-out, transform 0.6s ease-in-out;
-}
-
-.movie-row.hidden {
-  opacity: 0;
-  transform: translateY(20px);
-}
-
-.movie-row.fade-in {
-  opacity: 1;
-  transform: translateY(0);
+#movieContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .movie-card {
-    flex: 1;
     display: flex;
     justify-content: center;
     position: relative;
+    margin: 0.5em 0.5em;
+    box-sizing: border-box;
+}
+
+.movie-card.fade-in {
+    opacity: 1;
+	animation-name: fadeInOpacity;
+	animation-iteration-count: 1;
+	animation-timing-function: ease-in;
+	animation-duration: 0.5s;
+}
+
+@keyframes fadeInOpacity {
+	0% {
+		opacity: 0;
+        transform: translate(20px);
+	}
+	100% {
+		opacity: 1;
+        transform: translate(0);
+	}
 }
 
 .movie-card img {
+    max-width: 250px;
+    max-height: 450px;
     width: 250px;
     height: 450px;
+    flex-shrink: 1;
     object-fit: cover;
     border-radius: 10px;
+    box-shadow: 0 0 1em rgb(0, 0, 0, 0.5);
+}
+
+.wishlist-card {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    border-left: 20px solid #222222;
+    border-radius: 10px;
+    background-color: #9b53e3;
+    color: black;
+    font-weight: 500;
     box-shadow: 0 0 1em rgb(0, 0, 0, 0.35);
+    width: min-content;
+    height: min-content;
+    margin: 1em;
+}
+
+.wishlist-card:hover {
+    transform: scale(1.05);
+    transition: transform 0.4s ease-in-out;
+}
+
+.wishlist-card .movie-card:hover {
+    transform: scale(1.00);
 }
 
 .movie-overlay {
     border-radius: 7px;
     position: absolute;
-    width: 250px;
-    height: 450px;
+    width: 100%;
+    height: 100%;
     background-image: linear-gradient(to bottom, rgba(0,0,0,1), rgba(0,0,0,0.3));
     opacity: 0;
     transition: opacity 0.3s ease;
@@ -170,6 +271,7 @@ main {
     color: white;
     border-radius: 8px;
     transition: box-shadow 0.4s ease;
+    cursor: pointer;
 }
 
 .movie-overlay button:hover {
@@ -181,16 +283,75 @@ main {
     color: white;
 }
 
+.movieInfoContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    min-width: 100%;
+}
+
+#movieInfo {
+    display: flex;
+    flex: auto;
+    flex-direction: column;
+    justify-items: flex-start;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 1em 0;
+    min-width: 25%;
+    width: min-content;
+    height: min-content;
+    background-color: #222222;
+    border-radius: 30px;
+    box-shadow: 0 0 1em rgb(0, 0, 0, 0.35);
+}
+
+#movieDetail {
+    width: 300px;
+    color: #ffffff;
+    padding: 5% 10px;
+}
+
+#movieDetail h5 {
+    margin: 1em 0;
+}
+
 #movieInfo img {
     width: 300px;
-    height: 500px;
+    height: 562px;
     object-fit: cover;
     border-radius: 10px;
     transition: transform 0.4s ease;
+    box-shadow: 0 0 1em  #4d0a8f;
+    padding: 0;
+    margin: 0;
 }
 
 #movieInfo img:hover {
     transform: scale(1.05);
+}
+
+#movieInfo button {
+    margin: 0.5em 0;
+    box-sizing: border-box;
+}
+
+#moviePlot {
+    display: flex;
+    flex: auto;
+    flex-direction: column;
+    padding: 0 5%;
+    min-width: 75%;
+    width: min-content;
+    height: min-content;
+    box-sizing: border-box;
+}
+
+#moviePreview {
+    display: flex;
+    flex: auto;
+    min-width: 250px;
+    aspect-ratio: 16/9;
 }
 
 #moviePlot div a {
@@ -203,7 +364,7 @@ main {
     text-decoration: underline;
 }
 
-#buyButton {
+.detailButton {
     border: 0.15em solid #A76BCE;
     font-size: larger;
     width: 10em;
@@ -212,34 +373,27 @@ main {
     color: white;
     border-radius: 10px;
     transition: box-shadow 0.4s ease;
+    cursor: pointer;
 }
 
-#buyButton:hover {
-    box-shadow: 1em 0 2em #a719ff, -1em 0 2em #4d0a8f;
-}
-
-#wishButton {
-    border: 0.15em solid #A76BCE;
-    font-size: larger;
-    width: 10em;
-    height: 3em;
-    background-color: #333333;
-    color: white;
-    border-radius: 10px;
-    transition: box-shadow 0.4s ease;
-}
-
-#wishButton:hover {
+.detailButton:hover {
     box-shadow: 1em 0 2em #a719ff, -1em 0 2em #4d0a8f;
 }
 
 /*Styling for purchase page*/
+.ticketDetail {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
 #ticketAmount {
     width: 7%;
     text-align: center;
     border: none;
     background: none;
     font-weight: 800;
+    color: #FFFFFF;
 }
 
 .selectButton {
@@ -258,7 +412,8 @@ main {
 }
 
 .movie-filter-button {
-    width: 20%; 
+    width: 200px; 
+    margin: 0 0;
     font-size: medium;
     box-shadow: 0 0 1em rgb(0, 0, 0, 0.35);
 }
@@ -291,6 +446,7 @@ main {
     border: 3px solid transparent;
     border-radius: 8px;
     transition: box-shadow 0.2s ease;
+    background-color: #FFFFFF;
 }
 
 .payment-option input[type="radio"]:checked + img {
@@ -300,44 +456,36 @@ main {
 
 .purchaseContainer {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    min-width: 100%;
+}
+
+#purchaseInfo {
+    display: flex;
+    flex: auto;
     flex-direction: column;
+    justify-items: flex-start;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 1em 0;
+    margin: 0 3% 3% 0;
+    min-width: 30%;
+    width: min-content;
+    height: min-content;
     background-color: #222222;
+    color: #ffffff;
     border-radius: 30px;
-    box-shadow: 0 0 1em rgba(0, 0, 0, 0.35);
-    overflow: hidden;
-    min-width: 800px;
-    max-width: 100%;
-    min-height: 800px;
-    margin-top: 5%;
+    box-shadow: 0 0 1em rgb(0, 0, 0, 0.35);
 }
 
 .purchaseContainer h1 {
-    color: #7F00FF;
-}
-
-#paymentButton {
-    border: 0.15em solid white;
-    font-size: larger;
-    width: 8em;
-    height: 3em;
-    background-color: #7F00FF;
-    color: white;
-    border-radius: 10px;
-    transition: box-shadow 0.4s ease;
-}
-
-#paymentButton:hover {
-    box-shadow: 1em 0 2em #A76BCE, -1em 0 2em #7F00FF;    color: #A76BCE;
-    color: white;
-    border-color: #A76BCE;
+    color: #ffffff;
 }
 
 #paymentInfo img {
-    flex: 1;
-    width: 250px;
-    height: 450px;
+    width: 300px;
+    height: 562px;
     object-fit: cover;
     border-radius: 10px;
 }
@@ -363,18 +511,91 @@ main {
     box-shadow: 1em 0 2em #a719ff, -1em 0 2em #4d0a8f;
 }
 
-/*Styling for my ticket page*/
-.foreground img {
-    width: 200px;
-    height: 350px;
-    object-fit: cover;
-    border-radius: 8px;
-    transition: transform 0.2s ease-in;
+.gatewayContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    min-width: 100%;
+    min-height: 100%;
+}
+
+#gatewayInfo {
+    display: flex;
+    flex-direction: column;
+    justify-items: flex-start;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 1em 1em;
+    background-color: #222222;
+    color: #ffffff;
+    border-radius: 30px;
     box-shadow: 0 0 1em rgb(0, 0, 0, 0.35);
 }
 
-.foreground img:hover {
+
+#paymentButton {
+    border: 0.15em solid #9b53e3;
+    font-size: larger;
+    width: 8em;
+    height: 3em;
+    background-color: #333333;
+    color: white;
+    border-radius: 10px;
+    transition: box-shadow 0.4s ease;
+}
+
+#paymentButton:hover {
+    box-shadow: 1em 0 2em #A76BCE, -1em 0 2em #7F00FF;
+}
+
+/*Styling for my ticket page*/
+#ticketContainer {
+    display: flex;
+    flex: auto;
+    flex-direction: column;
+    min-height: 100%;
+    box-sizing: border-box;
+}
+
+.ticket-card {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+    border-radius: 10px;
+    background-color: #9b53e3;
+    color: black;
+    font-weight: 500;
+    box-shadow: 0 0 1em rgb(0, 0, 0, 0.35);
+    width: min-content;
+    height: min-content;
+}
+
+.ticketTransaction{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+    border-radius: 10px;
+    background-color: #222222;
+    width: min-content;
+    margin: 1em;
+}
+
+.ticketTransaction .ticketH5 {
+    color: #ffffff;
+    font-size: x-large;
+    margin: 0.5em;
+}
+
+.ticketTransaction:hover {
     transform: scale(1.05);
+    transition: transform 0.5s ease-in-out;
+}
+
+.ticketTransaction:hover .movie-card:hover{
+    transform: scale(1.00);
 }
 
 .ticketDetail {
@@ -401,38 +622,28 @@ main {
     box-shadow: 1em 0 2em #a719ff, -1em 0 2em #4d0a8f;
 }
 
-/*Styling for page footer*/
-#pageFooter {
-    background-color: #222222;
-}
-
-#pageFooter h3, #pageFooter h5{
-    color: white;
-    font-weight: normal;
-}
-
-#pageFooter a {
-    color: white;
-    text-decoration: none;
-}
-
-#pageFooter a:hover {
-    color: #BF9EDC;
-    text-decoration: underline;
-}
-
-.footerContainer {
+.ticketInfo {
     display: flex;
-    padding: 0% 20%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    min-width: 100%;
+    height: min-content;
+    border-left: 10px solid #222222;
+    padding: 1% 1% 1% 1.5%;
+    border-radius: 10px;
+    background-color: #9b53e3;
+    color: black;
+    font-weight: 500;
+    box-shadow: 0 0 1em rgb(0, 0, 0, 0.35);
+    margin: 1em;
+    box-sizing: border-box;
 }
 
-.footerContainer div {
-    flex: 1;
-}
-
+/*Contact For Formatting*/
 .contact-container {
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
     margin-top: 2%; 
 }
 
@@ -443,6 +654,18 @@ main {
 .contact-form h2 {
     color: #000000;
     font-size: 1.5rem;
+}
+
+.contact-form button {
+    box-sizing: border-box;
+    border: 0.15em solid #A76BCE;
+    font-size: larger;
+    width: 500px;
+    height: 3em;
+    background-color: #222222;
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;   
 }
 
 .form-input,
@@ -529,18 +752,23 @@ main {
 
 /* Styling for Login Form*/
 .loginContainer {
+    display: flex;
+    flex: auto;
+    position: relative;
     background-color: #222222;
     border-radius: 30px;
     box-shadow: 0 0 1em rgba(0, 0, 0, 0.35);
     overflow: hidden;
-    min-width: 800px;
+    min-width: 300px;
     max-width: 100%;
     min-height: 500px;
+    aspect-ratio: 2/1;
     margin-top: 5%;
 }
 
 .loginContainer p {
-    font-size: 18px;
+    font-size: medium;
+    font-weight: 600;
     line-height: 20px;
     letter-spacing: 0.3px;
     margin: 5% 0 5% 0;
@@ -549,30 +777,33 @@ main {
 .loginContainer errorText {
     color: #ff0000;
     font-weight: 1000;
-    font-size: 19px;
+    font-size: large;
 }
 
 .loginContainer span {
-    font-size: 15px;
+    font-size: medium;
 }
 
 .loginContainer button {
     background-color: #7F00FF;
     color: #ffffff;
     font-size: smaller;
-    border-style: none;
-    border-radius: 0;
+    border: 1px solid #ffffff;
+    border-radius: 10px;
     font-weight: 600;
-    letter-spacing: 0.5px;
     text-transform: uppercase;
-    margin-top: 3%;
+    margin: 5%;
     cursor: pointer;
-    padding: 10px 10px
+    padding: 1em 1em;
 }
 
 .loginContainer button.hidden {
     background-color: transparent;
-    border-color: #222222;
+    border-color: none;
+}
+
+.loginContainer button:hover {
+    box-shadow: 0 0 2em #9d00ff;
 }
 
 .loginContainer form {
@@ -582,7 +813,7 @@ main {
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    padding: 0 40px;
+    padding: 0 2em;
     height: 100%;
 }
 
@@ -590,10 +821,10 @@ main {
     background-color: #dddddd;
     border-style: none;
     border-left: 5px solid #a719ff;
-    border-radius: 4px 0 0 4px;
-    margin: 10px;
-    padding: 15px 20px;
-    font-size: 16px;
+    border-radius: 10px 0 0 10px;
+    margin: 0.5em 0;
+    padding: 1.2em 1em;
+    font-size: small;
     width: 100%;
     outline: none;
 }
@@ -643,7 +874,7 @@ main {
 }
 
 .toggle-loginContainer {
-    position: absolute;
+    position: relative;
     top: 0;
     left: 50%;
     width: 50%;
@@ -715,32 +946,44 @@ main {
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-width: 800px;
-    max-width: 100%;
-    min-height: 400px;
+    min-width: 300px;
     background-color: #222222;
     color: #ffffff;
     border-radius: 50px;
     box-shadow: 0 0 1em rgba(0, 0, 0, 0.35);
+    box-sizing: border-box;
     margin: 5% 0 3% 0;
-    padding: 1% 10%;
+    padding: 2% 20%;
 }
 
 .profileContainer h1 {
     color: #9d00ff;
 }
+
+.profileContainer form {
+    display: flex;
+    flex: auto;
+    flex-direction: column;
+    min-width: 100%;
+    min-height: 100%;
+    box-sizing: border-box;
+}
+
 .profileContainer label {
-    font-size: 20px;
+    display: flex;
+    flex-direction: row-reverse;
+    font-size: larger;
     font-weight: 1000;
+    width: 20%;
 }
 
 .profileContainer .inputField {
     display: flex;
-    flex-direction: row-reverse;
+    flex-direction: row;
     align-items: center;
     box-sizing: border-box;
-    width: 800px;
-    padding: 0 100px;
+    min-width: 100%;
+    text-align: right;
 }
 
 .profileContainer .errorField {
@@ -749,20 +992,22 @@ main {
     justify-content: center;
     align-items: center;
     box-sizing: border-box;
-    width: 800px;
-    padding: 0 100px;
+    width: 100%;
 }
 
 .inputField input {
+    display: flex;
     background-color: #dddddd;
     border-style: none;
     border-left: 5px solid #a719ff;
-    border-radius: 4px 0 0 4px;
-    margin: 10px;
-    padding: 15px 20px;
-    font-size: 18px;
-    width: 70%;
+    border-radius: 10px 0 0 10px;
+    font-size: larger;
+    width: 80%;
     outline: none;
+    box-sizing: border-box;
+    margin: 1em 1em;
+    padding: 1em 1em;
+    box-sizing: border-box;
 }
 
 .errorField errorText {
@@ -780,19 +1025,31 @@ main {
 }
 
 #buttonRow a {
-    margin-bottom: 5%;
+    margin-bottom: 1em;
+    box-sizing: border-box;
+    
 }
 
 #buttonRow button {
-    box-sizing: border-box;
     border: 0.15em solid #A76BCE;
     font-size: larger;
-    width: 500px;
+    min-width: 20em;
     height: 3em;
     background-color: #222222;
     color: white;
     border-radius: 10px;
     cursor: pointer;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+#buttonRow button:hover {
+    box-shadow: 0 0 2em #9d00ff;
+}
+
+#buttonRow a {
+    text-decoration: none;
 }
 
 #buttonRow button:hover {
@@ -800,7 +1057,12 @@ main {
 }
 
 #buttonRow #logout {
+    border-color: #ad1919;
     color: #ad1919;
+}
+
+#buttonRow #logout:hover {
+    box-shadow: 0 0 2em #ad1919;
 }
 
 #buttonRow #logout:hover {
@@ -809,31 +1071,37 @@ main {
 }
 
 /*Styling for movie Showtimes in HomePage*/
-.Mmovie-Rrow {
+.home-movie-row {
     display: flex;
     gap: 20px;
-    overflow-x: auto;        /* enable horizontal scrolling */
-    scroll-snap-type: x mandatory;  /* smooth snap effect */
-    padding: 20px 0;
-    scrollbar-width: none;   /* Firefox */
-    scrollbar-color: #888 #111;
+    scroll-snap-type: x mandatory;
+    padding: 1.5% 0;
+    box-sizing: border-box;
+    will-change: transform;
+    animation: scrolling 30s linear infinite;
 }
-/* Webkit scrollbar (Chrome, Edge, Safari) */
-.Mmovie-Rrow::-webkit-scrollbar {
-    height: 8px;
+
+.movie-card-row {
+    display: flex;
+    flex: 0 0 100%;
+    gap: 20px;
+    overflow-x: hidden;
+    scroll-snap-type: x mandatory;
+    padding: 1.5% 0;
 }
-.Mmovie-Rrow::-webkit-scrollbar-track {
-    background: #111;
-}
-.Mmovie-Rrow::-webkit-scrollbar-thumb {
-    background: #888;
-    border-radius: 4px;
+
+.homeInfo {
+    display: flex; 
+    flex-direction: row; 
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
 }
 
 /* Movie Card */
 .Mmovie-card {
-    flex: 0 0 auto;          /* prevent shrinking */
-    width: 200px;            /* card width */
+    flex: 0 0 auto;
+    width: 200px;
     scroll-snap-align: start;
     background: #222;
     border-radius: 10px;
@@ -846,17 +1114,26 @@ main {
 .movie-card:hover {
     transform: scale(1.05);
 }
+
 /* Movie Poster */
-.Mmovie-card img {
+.home-movie-row-wrapper {
     width: 100%;
-    height: 300px;
-    object-fit: cover;
-}
-.Mmovie-Rrow-wrapper {
+    overflow: hidden;
     position: relative;
     display: flex;
+    flex-direction: row;
     align-items: center;
 }
+
+@keyframes scrolling {
+    0% {
+        transform: translateX(0); 
+    }
+	100% { 
+        transform: translateX(calc(-100%/2));
+    }
+}
+
 /* Arrows under HomePage movie showtime*/
 .arrow {
     position: absolute;
@@ -865,9 +1142,9 @@ main {
     background: rgba(0,0,0,0.6);
     color: white;
     border: none;
-    padding: 10px;
+    padding: 1%;
     cursor: pointer;
-    font-size: 24px;
+    font-size: 2em;
     border-radius: 50%;
     z-index: 2;
     transition: background 0.3s ease;
@@ -878,9 +1155,9 @@ main {
 }
 
 .arrow.left {
-    left: 10px;
+    left: 1%;
 }
 
 .arrow.right {
-    right: 10px;
+    right: 1%;
 }

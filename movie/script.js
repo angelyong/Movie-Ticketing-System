@@ -2,16 +2,6 @@
 let currentBtn = document.getElementById("currentBtn");
 let upcomingBtn = document.getElementById("upcomingBtn");
 
-currentBtn.addEventListener('click', () => {
-  currentBtn.classList.add("active");
-  upcomingBtn.classList.remove("active");
-});
-
-upcomingBtn.addEventListener('click', () => {
-  upcomingBtn.classList.add("active");
-  currentBtn.classList.remove("active");
-})
-
 // fetch movie detail json using IMDB ID
 async function fetchMovieDetail(imdbId) {
     try {
@@ -61,11 +51,6 @@ async function fetchMovieArray(url) {
 async function displayCurrentMovie() {
     const container = document.getElementById("movieContainer");
     container.innerHTML = '';
-    
-    let counter = 0;
-    let rowDiv = document.createElement("div");
-    rowDiv.className = "movie-row";
-    rowDiv.classList.add("hidden");
 
     let url = `https://api.imdbapi.dev/titles?types=MOVIE&genres=Animation&languageCodes=ja&endYear=`
       + (new Date().getFullYear() - 3) + `&sortBy=SORT_BY_RELEASE_DATE&sortOrder=DESC`;
@@ -83,8 +68,6 @@ async function displayCurrentMovie() {
         const movieOverlay = document.createElement("div");
         movieOverlay.className = "movie-overlay";
 
-        console.log(document.getElementById("movieContainer"));
-
         movieOverlay.innerHTML = `
         <div style="height: 365px">
           <h3>${movie.primaryTitle}</h3>
@@ -93,34 +76,13 @@ async function displayCurrentMovie() {
           <h5><i class="fa-solid fa-language" style="color: #A76BCE; padding-right: 1%"></i> ${movie.spokenLanguages && movie.spokenLanguages.length > 0 ? movie.spokenLanguages[0].name : 'N/A'}</h5>
         </div>
         <div style="display: flex; justify-content: center;">
-          <a href="movie-detail.php?movieID=${movie.id}"><button>BUY TICKET</button><a>
+          <a href="movie-detail.php?movieID=${movie.id}"><button>VIEW INFO</button><a>
         </div>
         `;
         movieDiv.appendChild(movieOverlay);
-
-        rowDiv.appendChild(movieDiv);
+        container.appendChild(movieDiv);
         
-        counter++;
-
-        if (counter === 4) {
-          container.appendChild(rowDiv);
-
-          void rowDiv.offsetWidth;
-          rowDiv.classList.remove("hidden");
-          rowDiv.classList.add("fade-in");
-
-          rowDiv = document.createElement("div");
-          rowDiv.className = "movie-row hidden";
-          counter = 0;
-        }
-    }
-
-    // Append any remaining movies in the last row
-    if (counter > 0) {
-
-        void rowDiv.offsetWidth;
-        rowDiv.classList.remove("hidden");
-        rowDiv.classList.add("fade-in");
+        movieDiv.classList.add("fade-in");
     }
 }
 
@@ -129,20 +91,16 @@ async function displayUpcomingMovie() {
     const container = document.getElementById("movieContainer");
     container.innerHTML = '';
 
-    let counter = 0;
-    let rowDiv = document.createElement("div");
-    rowDiv.className = "movie-row";
-    rowDiv.classList.add("hidden");
-
     // Fetch Series
-    const url = `https://api.imdbapi.dev/titles?types=MOVIE&genres=Animation&languageCodes=ja&endYear=`
-      + new Date().getFullYear() + `&sortBy=SORT_BY_RELEASE_DATE&sortOrder=DESC`;
+    const url = `https://api.imdbapi.dev/titles?types=MOVIE&genres=Animation&languageCodes=ja&endYear=`+ 
+      new Date().getFullYear() + `&sortBy=SORT_BY_RELEASE_DATE&sortOrder=DESC`;
     const UPCOMING_SERIES = await fetchMovieArray(url);
     
-    for (const movie of UPCOMING_SERIES) {
-        if (movie.primaryImage === undefined || !movie) {
+    for (const movieData of UPCOMING_SERIES) {
+        if (movieData.primaryImage === undefined || !movieData) {
           continue;
         }
+        const movie = await fetchMovieDetail(movieData.id);
 
         const movieDiv = document.createElement("div");
         movieDiv.className = "movie-card";
@@ -162,29 +120,9 @@ async function displayUpcomingMovie() {
         </div>
         `;
         movieDiv.appendChild(movieOverlay);
-
-        rowDiv.appendChild(movieDiv);
-        counter++;
-
-        if (counter === 4) {
-          container.appendChild(rowDiv);
-
-          void rowDiv.offsetWidth;
-          rowDiv.classList.remove("hidden");
-          rowDiv.classList.add("fade-in");
-
-          rowDiv = document.createElement("div");
-          rowDiv.className = "movie-row hidden";
-          counter = 0;
-        }
-    }
-
-    // Append any remaining movies in the last row
-    if (counter > 0) {
-
-        void rowDiv.offsetWidth;
-        rowDiv.classList.remove("hidden");
-        rowDiv.classList.add("fade-in");
+        container.appendChild(movieDiv);
+        
+        movieDiv.classList.add("fade-in");
     }
 }
 
@@ -198,9 +136,8 @@ async function displayPreview(imdbId) {
     container.innerHTML = "Video Preview Not Available";
   } else {
     container.innerHTML = `
-      <iframe 
-        width="640" 
-        height="360" 
+      <iframe   
+        id="moviePreview" 
         src="https://www.imdb.com/video/imdb/${video.videos[0].id}/imdb/embed"
         frameborder="0" 
         allowfullscreen>
@@ -222,14 +159,59 @@ async function displayDetails(imdbId) {
 
   containerLeft.innerHTML = `
     <img src="${movie.primaryImage.url}" alt="${movie.originalTitle}">
-    <h5><i class="fa-solid fa-tag" style="padding-right: 1%"></i> ${movie.genres?.join(', ') || 'N/A'}</h5>
-    <h5><i class="fa-solid fa-clock" style="padding-right: 1%"></i> ${movie.runtimeSeconds ? Math.floor(movie.runtimeSeconds / 60) : '727'} mins</h5>
-    <h5><i class="fa-solid fa-language" style="padding-right: 1%"></i> ${movie.spokenLanguages?.[0]?.name || 'N/A'}</h5>
+    <div id="movieDetail">
+      <h5><i class="fa-solid fa-tag"></i> ${movie.genres?.join(', ') || 'N/A'}</h5>
+      <h5><i class="fa-solid fa-clock"></i> ${movie.runtimeSeconds ? Math.floor(movie.runtimeSeconds / 60) : 'N/A'} mins</h5>
+      <h5><i class="fa-solid fa-language"></i> ${movie.spokenLanguages?.[0]?.name || 'N/A'}</h5>
+    </div>
+    <button id="wishButton" class="detailButton"></button>
+    <button id="buyButton" class="detailButton"></button>
   `;
+
+  const wishButton = document.getElementById("wishButton");
+  if (loggedUser == null) {
+    wishButton.textContent = "LOG IN TO WISHLIST";
+    wishButton.onclick = () => {
+      window.location.href = `/Movie-Ticketing-System/userAuthentication/index.php?movieID=${imdbId}`;
+    };
+  } 
+  else {
+    const wishlisted = await isWishlisted(imdbId);
+    if (wishlisted) {
+      wishButton.textContent = "REMOVE FROM WISHLIST";
+      wishButton.onclick = async () => {
+        wishButton.textContent = "ADD TO WISHLIST";
+        const success = await removeWishlist(imdbId);
+        if(success) {
+          location.reload();
+        }
+      };
+    } else {
+      wishButton.textContent = "ADD TO WISHLIST";
+      wishButton.onclick = async () => {
+        const success = await addWishlist(imdbId);
+        if(success) {
+          location.reload();
+        }
+      };
+    }
+  }
+
+  const buyButton = document.getElementById("buyButton");
+  if (loggedUser == null) {
+    buyButton.innerHTML =  `
+      <a href="/Movie-Ticketing-System/userAuthentication/index.php?movieID=${imdbId}" style="color: white; text-decoration: none;">LOG IN TO BUY TICKET</a>
+    `;
+  } 
+  else {
+    buyButton.innerHTML =  `
+      <a href="/Movie-Ticketing-System/purchase/?movieID=${imdbId}" style="color: white; text-decoration: none;">BUY TICKET</a>
+    `;
+  }
 
   const synopsis = document.getElementById("syn");
   synopsis.textContent = movie.plot || "No synopsis available.";
-
+  
   createWikiLinks(document.getElementById("cas"), movie.stars);
   createWikiLinks(document.getElementById("dir"), movie.directors);
   createWikiLinks(document.getElementById("wri"), movie.writers);
@@ -258,8 +240,16 @@ function createWikiLinks(container, items) {
 }
 
 async function handleButtonClick(asyncMethod) {
+    if (asyncMethod == displayUpcomingMovie) {
+      upcomingBtn.classList.add("active");
+      currentBtn.classList.remove("active");
+    } else {
+      currentBtn.classList.add("active");
+      upcomingBtn.classList.remove("active");
+    }
+
     // Disable both buttons
-    const buttons = document.querySelectorAll('button');
+    const buttons = document.querySelectorAll('.selectButton');
     buttons.forEach(b => b.disabled = true);
 
     try {
@@ -267,4 +257,35 @@ async function handleButtonClick(asyncMethod) {
     } finally {
         buttons.forEach(b => b.disabled = false);
     }
+}
+
+async function isWishlisted(imdbId) {
+  const userID = sessionStorage.getItem("loggedUserID");
+
+  const response = await fetch(`isWishlisted.php?userID=${userID}&movieID=${imdbId}`);
+  const data = await response.json();
+
+  return data.length > 0;
+}
+
+async function addWishlist(imdbId) {
+  const userID = sessionStorage.getItem("loggedUserID");
+  const response = await fetch('addWishlist.php', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: `userID=${encodeURIComponent(userID)}&movieID=${encodeURIComponent(imdbId)}`
+  });
+  const result = await response.json();
+  return result.success;
+}
+
+async function removeWishlist(imdbId) {
+  const userID = sessionStorage.getItem("loggedUserID");
+  const response = await fetch('removeWishlist.php', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: `userID=${encodeURIComponent(userID)}&movieID=${encodeURIComponent(imdbId)}`
+  });
+  const result = await response.json();
+  return result.success;
 }

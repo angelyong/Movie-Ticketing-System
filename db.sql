@@ -16,8 +16,16 @@ CREATE TABLE IF NOT EXISTS user (
 );
 
 -- Creating the whishlist table
-DROP TABLE IF EXISTS wishlist;
-CREATE TABLE IF NOT EXISTS wishlist (
+DROP TABLE IF EXISTS upcomingWishlist;
+CREATE TABLE IF NOT EXISTS upcomingWishlist (
+    userID INT NOT NULL,
+    movieID VARCHAR(50) NOT NULL,
+    PRIMARY KEY (userID, movieID),
+    FOREIGN KEY (userID) REFERENCES user(userID)
+);
+
+DROP TABLE IF EXISTS currentWishlist;
+CREATE TABLE IF NOT EXISTS currentWishlist (
     userID INT NOT NULL,
     movieID VARCHAR(50) NOT NULL,
     PRIMARY KEY (userID, movieID),
@@ -44,4 +52,12 @@ CREATE TABLE IF NOT EXISTS ticket (
     PRIMARY KEY (ticketID),
     FOREIGN KEY (userID) REFERENCES user(userID),
     FOREIGN KEY (transactionID) REFERENCES transaction(transactionID)
+);
+
+-- Creating the Contact Table
+DROP TABLE IF EXISTS userMessage;
+CREATE TABLE IF NOT EXISTS userMessage (
+    name VARCHAR(50) NOT NULL,
+    email VARCHAR(50) NOT NULL,
+    message VARCHAR(300) NOT NULL
 );
