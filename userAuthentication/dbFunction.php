@@ -59,12 +59,14 @@
         $stmt = mysqli_prepare($conn, "INSERT INTO user (userName, userPassword, userEmail, userPhoneNo) VALUES (?, ?, ?, ?)");
         mysqli_stmt_bind_param($stmt, "ssss", $userName, $userPassword, $userEmail, $userPhoneNo);
         
-        if (mysqli_stmt_execute($stmt)) {
+        try {
+            mysqli_stmt_execute($stmt);
+
             // Retrieve User ID
             $last_id = mysqli_insert_id($conn);
             echo json_encode(['success' => true, 'userID' => $last_id]);
         }
-        else {
+        catch (Exception $e) {
             echo json_encode(['success' => false, 'error' => "USERNAME ALREADY EXISTS!"]);
         }
 

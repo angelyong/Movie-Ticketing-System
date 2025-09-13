@@ -18,8 +18,8 @@
                 </div>
                 <div class="purchaseContainer">
                     <div id="purchaseInfo">
-                        <div id="paymentMethod" style="flex: 1">
-                            <form method="POST" action="purchase.php" onsubmit="return validatePaymentOption()">
+                        <div id="paymentMethod" style="display: flex; min-width: 25vw;">
+                            <form method="POST" action="purchase.php" onsubmit="return validatePaymentOption()" style="padding: 0 2em">
                                 <input type="hidden" id="userID" name="userID">
                                 <input type="hidden" id="movieID" name="movieID">
                                 <div>
@@ -51,8 +51,8 @@
                                             <img src="https://images.seeklogo.com/logo-png/53/3/touch-n-go-logo-png_seeklogo-534257.png" alt="TNG">
                                         </label>
                                     </div>
-                                    <div style="color: red; padding-top: 2%" id="optionError"></div>
-                                    <div style="padding-top: 10%">
+                                    <div style="color: red; padding-top: 2%; font-weight: 1000;" id="optionError"></div>
+                                    <div style="display: flex; padding-top: 10%; justify-content: center;">
                                         <input class="makePayment" type=submit value="Proceed To Secure Payment">
                                     </div>
                                 </div>

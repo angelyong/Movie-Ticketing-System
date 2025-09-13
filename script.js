@@ -29,6 +29,17 @@ async function fetchMovieArray(url) {
     }
 }
 
+
+const bannerFiles = [
+  "banner1.png", 
+  "banner2.png", 
+  "banner3.png", 
+  "banner4.png",
+  "banner5.png",
+  "banner6.png",
+  "banner7.png"
+];
+
 function displayBanner() {
     const container = document.getElementById("banners");
     container.innerHTML = "";
@@ -37,7 +48,6 @@ function displayBanner() {
     rowDiv.className = "home-movie-row";
     rowDiv.id = "banner-row";
 
-    const bannerFiles = ["banner1.png", "banner2.png", "banner3.png", "banner4.png"];
 
     for (let i = 0; i < 2; i++) {
       for (let j = 0; j < bannerFiles.length; j++) {
@@ -98,6 +108,7 @@ async function displayCurrentMovie() {
 
         if (counter === 20) {
           container.appendChild(rowDiv);
+          rowDiv.classList.add("fade-in");
 
           rowDiv.classList.remove("hidden");
           rowDiv.classList.add("fade-in");
@@ -152,19 +163,12 @@ async function displayUpcomingMovie() {
 
         if (counter === 20) {
           container.appendChild(rowDiv);
+          rowDiv.classList.add("fade-in");
 
           rowDiv.classList.remove("hidden");
           rowDiv.classList.add("fade-in");
           break;
         }
-    }
-
-    // Append any remaining movies in the last row
-    if (counter > 0) {
-
-        void rowDiv.offsetWidth;
-        rowDiv.classList.remove("hidden");
-        rowDiv.classList.add("fade-in");
     }
 }
 
@@ -178,26 +182,4 @@ function scrollUpcomingMovies(direction) {
     const row = document.querySelector("#upcoming-movie-card-row");
     if (!row) return;
     row.scrollBy({ left: 300 * direction * 2, behavior: "smooth" });
-}
-
-let bannerInterval;
-
-function startBannerInterval() {
-    bannerInterval = setInterval(scrollBanner, 1);
-}
-
-function scrollBanner() {
-    const row = document.querySelector("#banner-row");
-    if (!row) return;
-
-    const scrollAmount = 2;
-
-    if (row.scrollLeft + row.clientWidth + scrollAmount >= row.scrollWidth) {
-        row.scrollTo({ left: 0, behavior: "smooth" });
-
-        clearInterval(bannerInterval);
-        setTimeout(startBannerInterval, 1000);
-    } else {
-        row.scrollBy({ left: scrollAmount, behavior: "smooth" });
-    }
 }

@@ -180,7 +180,7 @@ main {
     box-sizing: border-box;
 }
 
-.movie-card.fade-in {
+.fade-in {
     opacity: 1;
 	animation-name: fadeInOpacity;
 	animation-iteration-count: 1;
@@ -745,9 +745,9 @@ main {
 }
 
 .social-icons img {
-    width: 40px;  /* Adjust size to 40px */
-    height: 40px; /* Maintain square shape */
-    object-fit: contain; /* Ensure aspect ratio is maintained */
+    width: 40px; 
+    height: 40px; 
+    object-fit: contain; 
 }
 
 /* Styling for Login Form*/
@@ -1073,12 +1073,10 @@ main {
 /*Styling for movie Showtimes in HomePage*/
 .home-movie-row {
     display: flex;
-    gap: 20px;
     scroll-snap-type: x mandatory;
-    padding: 1.5% 0;
     box-sizing: border-box;
     will-change: transform;
-    animation: scrolling 30s linear infinite;
+    animation: scrolling 50s linear infinite;
 }
 
 .movie-card-row {
@@ -1088,6 +1086,14 @@ main {
     overflow-x: hidden;
     scroll-snap-type: x mandatory;
     padding: 1.5% 0;
+    box-sizing: border-box;
+
+}
+
+.home-movie-row img {
+    border-radius: 10px;
+    margin: 0.5em 0.5em;
+    box-sizing: border-box;
 }
 
 .homeInfo {
@@ -1130,7 +1136,7 @@ main {
         transform: translateX(0); 
     }
 	100% { 
-        transform: translateX(calc(-100%/2));
+        transform: translateX(calc(-50%));
     }
 }
 

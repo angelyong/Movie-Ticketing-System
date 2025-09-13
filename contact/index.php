@@ -44,13 +44,13 @@
                                 <tr>
                                     <td><label for="message">Your Message:</label></td>
                                     <td>
-                                        <textarea id="message" name="message" class="form-textarea" maxlength="50" placeholder="300 CHARACTER LIMIT"></textarea>
+                                        <textarea id="message" name="message" class="form-textarea" maxlength="300" placeholder="300 CHARACTER LIMIT" style="resize:none"></textarea>
                                     </td>
                                 </tr>
 
                                 <tr>
                                     <td colspan="2">
-                                        <button type="submit">Send Message</button>
+                                        <button type="submit" class="submitBtn">Send Message</button>
                                     </td>
                                 </tr>
                             </table>
@@ -62,12 +62,12 @@
                         <h2>Our Contact Information</h2>
                         <p><strong>Email:</strong> <a href="mailto:khaijeck@1utar.my">khaijeck@1utar.my</a></p>
                         <p><strong>Phone Number:</strong> +60 16-9014290</p>
-                        <p><strong>Address:</strong> Jalan Sungai Long, Bandar Sungai Long, 43000 Kajang, Selangor</p>
+                        <p><strong>Address:</strong> 727, Jalan SSS, Taman FC, 47400 Petaling Jaya, Selangor, Malaysia</p>
 
                         <!-- Google Map Section -->
                         <section class="map">
                             <h2>Find Us</h2>
-                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1184.5111851283773!2d101.79446399820554!3d3.039682324827!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31cc34a5f21a8235%3A0x78796ffc32ce3fcd!2sUniversiti%20Tunku%20Abdul%20Rahman%20(UTAR)!5e0!3m2!1sen!2smy!4v1757351181106!5m2!1sen!2smy"></iframe>
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31870.92983871769!2d101.59347513898211!3d3.130039648102783!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31cc494ca537b9f1%3A0x887c4a6a2ca357ac!2sAtria%20Shopping%20Gallery!5e0!3m2!1sen!2smy!4v1757745789622!5m2!1sen!2smy" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                         </section>
 
                         <!-- Social Media Links Section -->

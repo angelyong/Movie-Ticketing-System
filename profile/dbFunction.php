@@ -67,10 +67,11 @@
         mysqli_stmt_bind_param($stmt, "ssss", $userName, $userEmail, $userPhoneNo, $userID);
         
         // Successfully Updated Account
-        if (mysqli_stmt_execute($stmt)) {
+        try {
+            mysqli_stmt_execute($stmt);
             echo json_encode(['success' => true]);
         }
-        else {
+        catch (Exception $e) {
             echo json_encode(['success' => false, 'error' => mysqli_stmt_error($stmt)]);
         }
 
@@ -100,11 +101,12 @@
                     // Prepare & Execute Querry
                     $stmt = mysqli_prepare($conn, "UPDATE user SET userPassword = ? WHERE userID = ?");
                     mysqli_stmt_bind_param($stmt, "ss", $userPassword1, $userID);
-                    if (mysqli_stmt_execute($stmt)) {
+                    try {
+                        mysqli_stmt_execute($stmt);
                         echo json_encode(['success' => true]);
                     }
-                    else {
-                        echo json_encode(['success' => false, 'error' => mysqli_error_stmt($stmt)]);
+                    catch (Exception $e) {
+                        echo json_encode(['success' => false, 'error' => mysqli_stmt_error($stmt)]);
                     }
 
                     // Close stmt
